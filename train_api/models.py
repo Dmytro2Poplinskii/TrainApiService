@@ -73,7 +73,7 @@ class Ticket(models.Model):
     cargo = models.IntegerField()
     seat = models.IntegerField()
     journey = models.ForeignKey(Journey, on_delete=models.CASCADE)
-    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Cargo: {self.cargo}. Seat: {self.seat}. Journey: {self.journey}. Order: {self.order}"

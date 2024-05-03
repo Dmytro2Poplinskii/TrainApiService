@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserViewSet, CrewViewSet, StationViewSet
+from .views import UserViewSet, CrewViewSet, StationViewSet, TrainTypeViewSet
 
 urlpatterns = [
     path("users/", UserViewSet.as_view(
@@ -21,7 +21,11 @@ urlpatterns = [
         "put": "update",
         "patch": "partial_update",
         "delete": "destroy"
-    }))
+    })),
+    path("train-types/", TrainTypeViewSet.as_view({
+            "get": "list",
+            "post": "create",
+    })),
 ]
 
 app_name = "train_api"

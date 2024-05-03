@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from train_api.models import Crew, Station
+from train_api.models import Crew, Station, TrainType
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -25,4 +25,10 @@ class StationListSerializer(serializers.ModelSerializer):
 class StationDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Station
+        fields = "__all__"
+
+
+class TrainTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainType
         fields = "__all__"

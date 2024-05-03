@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 
-from train_api.models import Crew, Station
+from train_api.models import Crew, Station, TrainType
 from train_api.serializers import (
     UserSerializer,
     CrewSerializer,
     StationListSerializer,
-    StationDetailSerializer,
+    StationDetailSerializer, TrainTypeSerializer,
 )
 
 
@@ -28,3 +28,8 @@ class StationViewSet(viewsets.ModelViewSet):
             return StationListSerializer
         else:
             return StationDetailSerializer
+
+
+class TrainTypeViewSet(viewsets.ModelViewSet):
+    queryset = TrainType.objects.all()
+    serializer_class = TrainTypeSerializer

@@ -4,7 +4,10 @@ from .views import (
     CrewViewSet,
     StationViewSet,
     TrainTypeViewSet,
-    TrainViewSet, RouteViewSet, JourneyViewSet,
+    TrainViewSet,
+    RouteViewSet,
+    JourneyViewSet,
+    OrderViewSet,
 )
 
 urlpatterns = [
@@ -60,6 +63,16 @@ urlpatterns = [
         "patch": "partial_update",
         "delete": "destroy"
     }), name="journey_detail"),
+    path("orders/", OrderViewSet.as_view({
+        "get": "list",
+        "post": "create",
+    }), name="order_list"),
+    path("orders/<int:pk>", OrderViewSet.as_view({
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy",
+    }), name="order_detail"),
 ]
 
 app_name = "train_api"

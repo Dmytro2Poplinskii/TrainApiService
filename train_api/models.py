@@ -6,6 +6,10 @@ class Crew(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
 
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -48,6 +52,10 @@ class Route(models.Model):
     source = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="source_routes")
     destination = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="destination_routes")
     distance = models.IntegerField()
+
+    @property
+    def full_route(self):
+        return f"{self.source.name}-{self.destination.name}"
 
     def __str__(self):
         return f"Source: {self.source.name}. Destination: {self.destination.name}"

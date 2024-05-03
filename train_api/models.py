@@ -35,7 +35,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Order for {self.user.name}. Date: {self.created_date}"
+        return f"Order for {self.user.username}. Date: {self.created_date}"
 
 
 class Train(models.Model):

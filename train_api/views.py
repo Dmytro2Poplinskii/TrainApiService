@@ -15,7 +15,7 @@ from train_api.serializers import (
     JourneyListSerializer,
     JourneyDetailSerializer,
     OrderListSerializer,
-    OrderDetailSerializer, TicketListSerializer, TicketDetailSerializer,
+    OrderDetailSerializer, TicketListSerializer, TicketDetailSerializer, JourneyCreateSerializer,
 )
 
 
@@ -70,8 +70,10 @@ class JourneyViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return JourneyListSerializer
-        else:
-            return JourneyDetailSerializer
+        elif self.action == "create":
+            return JourneyCreateSerializer
+
+        return JourneyDetailSerializer
 
 
 class OrderViewSet(viewsets.ModelViewSet):

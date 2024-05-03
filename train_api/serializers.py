@@ -88,6 +88,12 @@ class JourneyDetailSerializer(serializers.ModelSerializer):
         fields = ("id", "departure_time", "arrival_time", "route", "train", "crews",)
 
 
+class JourneyCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Journey
+        fields = "__all__"
+
+
 class OrderListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order

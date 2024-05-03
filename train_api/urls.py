@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import UserViewSet
-
+from .views import UserViewSet, CrewViewSet
 
 urlpatterns = [
     path("users/", UserViewSet.as_view(
@@ -9,6 +8,10 @@ urlpatterns = [
             "post": "create",
         }
     ), name="users"),
+    path("crews/", CrewViewSet.as_view({
+            "get": "list",
+            "post": "create",
+        }), name="crews"),
 ]
 
 app_name = "train_api"

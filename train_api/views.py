@@ -1,9 +1,15 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 
-from train_api.serializers import UserSerializer
+from train_api.models import Crew
+from train_api.serializers import UserSerializer, CrewSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
+
+
+class CrewViewSet(viewsets.ModelViewSet):
+    queryset = Crew.objects.all()
+    serializer_class = CrewSerializer

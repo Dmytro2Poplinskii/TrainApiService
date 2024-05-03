@@ -7,18 +7,25 @@ from .views import (
     TrainViewSet,
     RouteViewSet,
     JourneyViewSet,
-    OrderViewSet, TicketViewSet,
+    OrderViewSet,
+    TicketViewSet,
 )
 
 urlpatterns = [
     path("users/", UserViewSet.as_view({
             "get": "list",
             "post": "create",
-        }), name="users"),
+    }), name="users"),
     path("crews/", CrewViewSet.as_view({
             "get": "list",
             "post": "create",
-        }), name="crews"),
+    }), name="crew_list"),
+    path("crews/<int:pk>", CrewViewSet.as_view({
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy"
+    }), name="crew_detail"),
     path("stations/", StationViewSet.as_view({
             "get": "list",
             "post": "create",

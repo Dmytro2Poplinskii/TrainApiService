@@ -70,7 +70,7 @@ class JourneyViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return JourneyListSerializer
-        elif self.action == "create":
+        elif self.action in ("create", "update", "partial_update"):
             return JourneyCreateSerializer
 
         return JourneyDetailSerializer

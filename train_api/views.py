@@ -1,12 +1,13 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 
-from train_api.models import Crew, Station, TrainType, Train
+from train_api.models import Crew, Station, TrainType, Train, Route
 from train_api.serializers import (
     UserSerializer,
     CrewSerializer,
     StationListSerializer,
-    StationDetailSerializer, TrainTypeSerializer, TrainListSerializer, TrainDetailSerializer,
+    StationDetailSerializer, TrainTypeSerializer, TrainListSerializer, TrainDetailSerializer, RouteListSerializer,
+    RouteDetailSerializer,
 )
 
 
@@ -43,3 +44,13 @@ class TrainViewSet(viewsets.ModelViewSet):
             return TrainListSerializer
         else:
             return TrainDetailSerializer
+
+
+class RouteViewSet(viewsets.ModelViewSet):
+    queryset = Route.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return RouteListSerializer
+        else:
+            return RouteDetailSerializer

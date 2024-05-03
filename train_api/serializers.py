@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from train_api.models import Crew, Station, TrainType, Train
+from train_api.models import Crew, Station, TrainType, Train, Route
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,3 +48,21 @@ class TrainDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Train
         fields = ("id", "name", "cargo_num", "places_in_cargo", "train_type",)
+
+
+class RouteListSerializer(serializers.ModelSerializer):
+    source = serializers.SlugRelatedField(read_only=True, slug_field="name")
+    destination = serializers.SlugRelatedField(read_only=True, slug_field="name")
+
+    class Meta:
+        model = Route
+        fields = ("distance", "source", "destination",)
+
+
+class RouteDetailSerializer(serializers.ModelSerializer):
+    source = StationDetailSerializer()
+    destination = StationDetailSerializer()
+
+    class Meta:
+        model = Route
+        fields = "__all__"

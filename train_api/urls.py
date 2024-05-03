@@ -32,7 +32,13 @@ urlpatterns = [
     path("train-types/", TrainTypeViewSet.as_view({
             "get": "list",
             "post": "create",
-    }), name="train_types"),
+    }), name="train_types_list"),
+    path("train-types/<int:pk>", TrainTypeViewSet.as_view({
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy"
+    }), name="train_type_detail"),
     path("trains/", TrainViewSet.as_view({
         "get": "list",
         "post": "create",

@@ -7,7 +7,7 @@ from .views import (
     TrainViewSet,
     RouteViewSet,
     JourneyViewSet,
-    OrderViewSet,
+    OrderViewSet, TicketViewSet,
 )
 
 urlpatterns = [
@@ -73,6 +73,16 @@ urlpatterns = [
         "patch": "partial_update",
         "delete": "destroy",
     }), name="order_detail"),
+    path("tickets/", TicketViewSet.as_view({
+        "get": "list",
+        "post": "create",
+    }), name="ticket_list"),
+    path("tickets/<int:pk>", TicketViewSet.as_view({
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy"
+    }), name="ticket_detail"),
 ]
 
 app_name = "train_api"

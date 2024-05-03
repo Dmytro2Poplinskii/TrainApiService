@@ -80,10 +80,10 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
 
     def get_serializer_class(self):
-        if self.action == "list":
+        if self.action in ("list", "create", "update", "partial_update"):
             return OrderListSerializer
-        else:
-            return OrderDetailSerializer
+
+        return OrderDetailSerializer
 
 
 class TicketViewSet(viewsets.ModelViewSet):

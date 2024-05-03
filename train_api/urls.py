@@ -15,7 +15,13 @@ urlpatterns = [
     path("users/", UserViewSet.as_view({
             "get": "list",
             "post": "create",
-    }), name="users"),
+    }), name="user_list"),
+    path("users/<int:pk>", UserViewSet.as_view({
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy"
+    }), name="user_detail"),
     path("crews/", CrewViewSet.as_view({
             "get": "list",
             "post": "create",

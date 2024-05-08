@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from .utils import train_image_path
+
 
 class Crew(models.Model):
     first_name = models.CharField(max_length=50)
@@ -40,9 +42,11 @@ class Order(models.Model):
 
 class Train(models.Model):
     name = models.CharField(max_length=50)
-    cargo_num = models.IntegerField()
-    places_in_cargo = models.IntegerField()
+    cargo_num = models.IntegerField(null=True)
+    places_in_cargo = models.IntegerField(null=True)
     train_type = models.ForeignKey(TrainType, on_delete=models.CASCADE)
+    num_seats = models.IntegerField(null=True)
+    image = models.ImageField(upload_to=train_image_path, null=True)
 
     def __str__(self):
         return f"{self.name}. {self.cargo_num} {self.places_in_cargo}"

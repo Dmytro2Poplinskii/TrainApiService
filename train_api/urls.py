@@ -28,6 +28,11 @@ urlpatterns = [
 
     path("trains/", TrainViewSet.as_view(DEFAULT_LIST_ACTIONS), name="train_list"),
     path("trains/<int:pk>", TrainViewSet.as_view(DEFAULT_DETAIL_ACTIONS), name="train_detail"),
+    path(
+        "trains/<int:pk>/upload_image/",
+        TrainViewSet.as_view({"post": "upload_image"}),
+        name="upload_train_image"
+    ),
 
     path("routes/", RouteViewSet.as_view(DEFAULT_LIST_ACTIONS), name="route_list"),
     path("routes/<int:pk>", RouteViewSet.as_view(DEFAULT_DETAIL_ACTIONS), name="route_detail"),

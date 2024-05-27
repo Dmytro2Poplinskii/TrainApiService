@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from train_api.models import Crew, Station, TrainType, Train, Route, Journey, Order, Ticket
@@ -6,8 +6,16 @@ from train_api.models import Crew, Station, TrainType, Train, Route, Journey, Or
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ("username", "email")
+        model = get_user_model()
+        fields = ("id", "username", "email", "password", "is_staff",)
+        extra_kwargs = {
+            "password": {"write_only": True, "min_length": 5, "style": {"input_type": "password"}},
+            "is_staff": {"read_only": True},
+        }
+
+        @staticmethod
+        def create(validated_data):
+            return get_user_model().objects.create_user(**validated_data)
 
 
 class CrewSerializer(serializers.ModelSerializer):

@@ -9,13 +9,14 @@ from .views import (
     RouteViewSet,
     JourneyViewSet,
     OrderViewSet,
-    TicketViewSet,
+    TicketViewSet, ManageUserView,
 )
 from .constants import DEFAULT_LIST_ACTIONS, DEFAULT_DETAIL_ACTIONS
 
 urlpatterns = [
     path("users/", UserViewSet.as_view(DEFAULT_LIST_ACTIONS), name="user_list"),
     path("users/<int:pk>", UserViewSet.as_view(DEFAULT_DETAIL_ACTIONS), name="user_detail"),
+    path("me/", ManageUserView.as_view(), name="manage_user"),
 
     path("crews/", CrewViewSet.as_view(DEFAULT_LIST_ACTIONS), name="crew_list"),
     path("crews/<int:pk>", CrewViewSet.as_view(DEFAULT_DETAIL_ACTIONS), name="crew_detail"),

@@ -23,4 +23,5 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include("train_api.urls"), name="train_api_service"),
+    path("api/v1/", include("users.urls"), name="users_service"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -20,8 +20,12 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+from users.views import CreateUserView, LoginUserView
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include("train_api.urls"), name="train_api_service"),
     path("api/v1/", include("users.urls"), name="users_service"),
+    path("login/", LoginUserView.as_view(), name="get_token"),
+    path("register/", CreateUserView.as_view(), name="login"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,5 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, permissions
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -26,10 +27,14 @@ from train_api.serializers import (
 class CrewViewSet(viewsets.ModelViewSet):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated,]
 
 
 class StationViewSet(viewsets.ModelViewSet):
     queryset = Station.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated,]
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -41,10 +46,14 @@ class StationViewSet(viewsets.ModelViewSet):
 class TrainTypeViewSet(viewsets.ModelViewSet):
     queryset = TrainType.objects.all()
     serializer_class = TrainTypeSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated,]
 
 
 class TrainViewSet(viewsets.ModelViewSet):
     queryset = Train.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated,]
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -69,6 +78,8 @@ class TrainViewSet(viewsets.ModelViewSet):
 
 class RouteViewSet(viewsets.ModelViewSet):
     queryset = Route.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated,]
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -79,6 +90,8 @@ class RouteViewSet(viewsets.ModelViewSet):
 
 class JourneyViewSet(viewsets.ModelViewSet):
     queryset = Journey.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated,]
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -91,6 +104,8 @@ class JourneyViewSet(viewsets.ModelViewSet):
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated,]
 
     def get_serializer_class(self):
         if self.action in ("list", "create", "update", "partial_update"):
@@ -101,6 +116,8 @@ class OrderViewSet(viewsets.ModelViewSet):
 
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated,]
 
     def get_serializer_class(self):
         if self.action in ("list", "create", "update", "partial_update"):

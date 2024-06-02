@@ -20,7 +20,7 @@ from train_api.serializers import (
     TicketListSerializer,
     TicketDetailSerializer,
     JourneyCreateSerializer,
-    TrainImageSerializer,
+    TrainImageSerializer, RouteCreateSerializer,
 )
 
 
@@ -82,8 +82,11 @@ class RouteViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated,]
 
     def get_serializer_class(self):
+        print("self.action", self.action)
         if self.action == "list":
             return RouteListSerializer
+        elif self.action in ("create", "update", "partial_update"):
+            return RouteCreateSerializer
         else:
             return RouteDetailSerializer
 

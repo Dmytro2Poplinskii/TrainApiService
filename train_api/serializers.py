@@ -69,6 +69,15 @@ class RouteDetailSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class RouteCreateSerializer(serializers.ModelSerializer):
+    source = serializers.PrimaryKeyRelatedField(queryset=Station.objects.all())
+    destination = serializers.PrimaryKeyRelatedField(queryset=Station.objects.all())
+
+    class Meta:
+        model = Route
+        fields = ("source", "destination", "distance")
+
+
 class JourneyListSerializer(serializers.ModelSerializer):
     route = serializers.SlugRelatedField(read_only=True, slug_field="full_route")
     train = serializers.SlugRelatedField(read_only=True, slug_field="name")

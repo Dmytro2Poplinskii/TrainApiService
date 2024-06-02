@@ -42,8 +42,15 @@ class TrainDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Train
-        fields = ("id", "name", "cargo_num", "places_in_cargo", "train_type", "image")
+        fields = ("id", "name", "cargo_num", "places_in_cargo", "train_type", "image", "num_seats")
 
+
+class TrainCreateSerializer(serializers.ModelSerializer):
+    train_type = serializers.PrimaryKeyRelatedField(queryset=TrainType.objects.all())
+
+    class Meta:
+        model = Train
+        fields = ("name", "cargo_num", "places_in_cargo", "train_type", "num_seats")
 
 class TrainImageSerializer(serializers.ModelSerializer):
     class Meta:

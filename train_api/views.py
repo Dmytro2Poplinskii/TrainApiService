@@ -20,7 +20,7 @@ from train_api.serializers import (
     TicketListSerializer,
     TicketDetailSerializer,
     JourneyCreateSerializer,
-    TrainImageSerializer, RouteCreateSerializer,
+    TrainImageSerializer, RouteCreateSerializer, TrainCreateSerializer,
 )
 
 
@@ -60,6 +60,8 @@ class TrainViewSet(viewsets.ModelViewSet):
             return TrainListSerializer
         elif self.action == "upload_image":
             return TrainImageSerializer
+        elif self.action in ("update", "partial_update"):
+            return TrainCreateSerializer
         else:
             return TrainDetailSerializer
 

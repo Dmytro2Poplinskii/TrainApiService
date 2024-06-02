@@ -37,8 +37,8 @@ class TrainListSerializer(serializers.ModelSerializer):
 
 
 class TrainDetailSerializer(serializers.ModelSerializer):
-    train_type = TrainTypeSerializer(read_only=True)
-    image = serializers.ImageField(read_only=True)
+    train_type = serializers.PrimaryKeyRelatedField(queryset=TrainType.objects.all())
+    image = serializers.ImageField()
 
     class Meta:
         model = Train

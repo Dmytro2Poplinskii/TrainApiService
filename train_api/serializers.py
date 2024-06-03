@@ -39,10 +39,23 @@ class TrainListSerializer(serializers.ModelSerializer):
 class TrainDetailSerializer(serializers.ModelSerializer):
     train_type = serializers.PrimaryKeyRelatedField(queryset=TrainType.objects.all())
     image = serializers.ImageField()
+    available_num_seats = serializers.SerializerMethodField()
 
     class Meta:
         model = Train
-        fields = ("id", "name", "carriage_num", "places_in_carriage", "train_type", "image", "num_seats")
+        fields = (
+            "id",
+            "name",
+            "carriage_num",
+            "places_in_carriage",
+            "train_type",
+            "image",
+            "num_seats",
+            "available_num_seats"
+        )
+
+    def get_available_num_seats(self, obj):
+        return Seats.objects.filter(train=obj, is_available=True).count()
 
 
 class TrainCreateSerializer(serializers.ModelSerializer):

@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
 from users.views import CreateUserView, LoginUserView
 
@@ -28,4 +29,8 @@ urlpatterns = [
     path("api/v1/", include("users.urls"), name="users_service"),
     path("login/", LoginUserView.as_view(), name="get_token"),
     path("register/", CreateUserView.as_view(), name="login"),
+
+    path("api/v1/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/v1/doc/swagger/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("api/v1/doc/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc-ui"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

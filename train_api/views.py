@@ -20,7 +20,8 @@ from train_api.serializers import (
     TicketListSerializer,
     TicketDetailSerializer,
     JourneyCreateSerializer,
-    TrainImageSerializer, RouteCreateSerializer, TrainCreateSerializer,
+    TrainImageSerializer, RouteCreateSerializer, TrainCreateSerializer, TicketCreateSerializer,
+    MultipleTicketCreateSerializer,
 )
 
 
@@ -131,7 +132,25 @@ class TicketViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated,]
 
     def get_serializer_class(self):
-        if self.action in ("list", "create", "update", "partial_update"):
+        if self.action == "list":
             return TicketListSerializer
+        elif self.action in ("create", "update", "partial_update"):
+            return MultipleTicketCreateSerializer
         else:
             return TicketDetailSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        tickets = serializer.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            {"tickets": TicketDetailSerializer(tickets, many=True).data},
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context

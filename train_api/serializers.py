@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from train_api.models import Crew, Station, TrainType, Train, Route, Journey, Order, Ticket
+from train_api.models import Crew, Station, TrainType, Train, Route, Journey, Order, Ticket, Seats
 from users.serializers import UserSerializer
 
 
@@ -142,3 +142,30 @@ class TicketDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ("id", "journey", "seat", "order", "train")
+
+
+class TicketCreateSerializer(serializers.ModelSerializer):
+    journey = serializers.PrimaryKeyRelatedField(queryset=Journey.objects.all())
+    seat = serializers.PrimaryKeyRelatedField(queryset=Seats.objects.all())
+    train = serializers.PrimaryKeyRelatedField(queryset=Train.objects.all())
+
+    class Meta:
+        model = Ticket
+        fields = ("id", "journey", "seat", "train")
+
+
+class MultipleTicketCreateSerializer(serializers.Serializer):
+    tickets = TicketCreateSerializer(many=True)
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        user = request.user
+        order = Order.objects.create(user=user)
+        tickets_data = validated_data['tickets']
+        tickets = []
+
+        for ticket_data in tickets_data:
+            ticket = Ticket.objects.create(order=order, **ticket_data)
+            tickets.append(ticket)
+
+        return tickets

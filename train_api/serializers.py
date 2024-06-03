@@ -42,7 +42,7 @@ class TrainDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Train
-        fields = ("id", "name", "cargo_num", "places_in_cargo", "train_type", "image", "num_seats")
+        fields = ("id", "name", "carriage_num", "places_in_carriage", "train_type", "image", "num_seats")
 
 
 class TrainCreateSerializer(serializers.ModelSerializer):
@@ -50,7 +50,8 @@ class TrainCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Train
-        fields = ("name", "cargo_num", "places_in_cargo", "train_type", "num_seats")
+        fields = ("name", "carriage_num", "places_in_carriage", "train_type", "num_seats")
+
 
 class TrainImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -131,7 +132,7 @@ class TicketListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ("id", "cargo", "journey_route", "seat", "order_id")
+        fields = ("id", "journey_route", "seat", "order_id", "train")
 
 
 class TicketDetailSerializer(serializers.ModelSerializer):
@@ -140,4 +141,4 @@ class TicketDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ("id", "cargo", "journey", "seat", "order")
+        fields = ("id", "journey", "seat", "order", "train")

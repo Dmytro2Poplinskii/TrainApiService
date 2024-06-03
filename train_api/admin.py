@@ -1,6 +1,16 @@
 from django.contrib import admin
 
-from .models import Crew, Ticket, TrainType, Station, Order, Route, Journey, Train, Seats
+from .models import (
+    Crew,
+    Ticket,
+    TrainType,
+    Station,
+    Order,
+    Route,
+    Journey,
+    Train,
+    Seats,
+)
 
 
 admin.site.register(Crew)

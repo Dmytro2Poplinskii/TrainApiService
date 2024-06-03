@@ -1,6 +1,16 @@
 from rest_framework import serializers
 
-from train_api.models import Crew, Station, TrainType, Train, Route, Journey, Order, Ticket, Seats
+from train_api.models import (
+    Crew,
+    Station,
+    TrainType,
+    Train,
+    Route,
+    Journey,
+    Order,
+    Ticket,
+    Seats,
+)
 from users.serializers import UserSerializer
 
 
@@ -51,7 +61,7 @@ class TrainDetailSerializer(serializers.ModelSerializer):
             "train_type",
             "image",
             "num_seats",
-            "available_num_seats"
+            "available_num_seats",
         )
 
     def get_available_num_seats(self, obj):
@@ -63,13 +73,22 @@ class TrainCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Train
-        fields = ("name", "carriage_num", "places_in_carriage", "train_type", "num_seats")
+        fields = (
+            "name",
+            "carriage_num",
+            "places_in_carriage",
+            "train_type",
+            "num_seats",
+        )
 
 
 class TrainImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Train
-        fields = ("id", "image",)
+        fields = (
+            "id",
+            "image",
+        )
 
 
 class RouteListSerializer(serializers.ModelSerializer):
@@ -78,7 +97,11 @@ class RouteListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ("distance", "source", "destination",)
+        fields = (
+            "distance",
+            "source",
+            "destination",
+        )
 
 
 class RouteDetailSerializer(serializers.ModelSerializer):
@@ -102,11 +125,20 @@ class RouteCreateSerializer(serializers.ModelSerializer):
 class JourneyListSerializer(serializers.ModelSerializer):
     route = serializers.SlugRelatedField(read_only=True, slug_field="full_route")
     train = serializers.SlugRelatedField(read_only=True, slug_field="name")
-    crews = serializers.SlugRelatedField(read_only=True, slug_field="full_name", many=True)
+    crews = serializers.SlugRelatedField(
+        read_only=True, slug_field="full_name", many=True
+    )
 
     class Meta:
         model = Journey
-        fields = ("id", "departure_time", "arrival_time", "route", "train", "crews",)
+        fields = (
+            "id",
+            "departure_time",
+            "arrival_time",
+            "route",
+            "train",
+            "crews",
+        )
 
 
 class JourneyDetailSerializer(serializers.ModelSerializer):
@@ -116,7 +148,14 @@ class JourneyDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Journey
-        fields = ("id", "departure_time", "arrival_time", "route", "train", "crews",)
+        fields = (
+            "id",
+            "departure_time",
+            "arrival_time",
+            "route",
+            "train",
+            "crews",
+        )
 
 
 class JourneyCreateSerializer(serializers.ModelSerializer):
@@ -141,7 +180,9 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
 class TicketListSerializer(serializers.ModelSerializer):
     order_id = serializers.IntegerField(read_only=True, source="order.id")
-    journey_route = serializers.CharField(source="journey.route.full_route", read_only=True)
+    journey_route = serializers.CharField(
+        source="journey.route.full_route", read_only=True
+    )
 
     class Meta:
         model = Ticket
@@ -159,7 +200,9 @@ class TicketDetailSerializer(serializers.ModelSerializer):
 
 class TicketCreateSerializer(serializers.ModelSerializer):
     journey = serializers.PrimaryKeyRelatedField(queryset=Journey.objects.all())
-    seat = serializers.PrimaryKeyRelatedField(queryset=Seats.objects.all().filter(is_available=True))
+    seat = serializers.PrimaryKeyRelatedField(
+        queryset=Seats.objects.all().filter(is_available=True)
+    )
     train = serializers.PrimaryKeyRelatedField(queryset=Train.objects.all())
 
     class Meta:
@@ -171,14 +214,14 @@ class MultipleTicketCreateSerializer(serializers.Serializer):
     tickets = TicketCreateSerializer(many=True)
 
     def create(self, validated_data):
-        request = self.context.get('request')
+        request = self.context.get("request")
         user = request.user
         order = Order.objects.create(user=user)
-        tickets_data = validated_data['tickets']
+        tickets_data = validated_data["tickets"]
         tickets = []
 
         for ticket_data in tickets_data:
-            seat = ticket_data['seat']
+            seat = ticket_data["seat"]
             if seat.is_available:
                 ticket = Ticket.objects.create(order=order, **ticket_data)
                 seat.is_available = False

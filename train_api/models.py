@@ -68,8 +68,12 @@ class Seats(models.Model):
 
 
 class Route(models.Model):
-    source = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="source_routes")
-    destination = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="destination_routes")
+    source = models.ForeignKey(
+        Station, on_delete=models.CASCADE, related_name="source_routes"
+    )
+    destination = models.ForeignKey(
+        Station, on_delete=models.CASCADE, related_name="destination_routes"
+    )
 
     @property
     def distance(self):

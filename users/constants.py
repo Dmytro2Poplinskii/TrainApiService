@@ -7,5 +7,5 @@ DEFAULT_DETAIL_ACTIONS = {
     "get": "retrieve",
     "put": "update",
     "patch": "partial_update",
-    "delete": "destroy"
+    "delete": "destroy",
 }

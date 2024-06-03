@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "rest_framework.authtoken",
-    "train_api"
+    "train_api",
 ]
 
 MIDDLEWARE = [

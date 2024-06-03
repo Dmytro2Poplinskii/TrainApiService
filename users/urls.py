@@ -5,7 +5,11 @@ from users.views import UserViewSet, ManageUserView
 
 urlpatterns = [
     path("users/", UserViewSet.as_view(DEFAULT_LIST_ACTIONS), name="user_list"),
-    path("users/<int:pk>", UserViewSet.as_view(DEFAULT_DETAIL_ACTIONS), name="user_detail"),
+    path(
+        "users/<int:pk>",
+        UserViewSet.as_view(DEFAULT_DETAIL_ACTIONS),
+        name="user_detail",
+    ),
     path("me/", ManageUserView.as_view(), name="manage_user"),
 ]
 

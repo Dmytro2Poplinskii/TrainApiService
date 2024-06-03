@@ -1,3 +1,5 @@
+from math import sqrt
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -42,20 +44,39 @@ class Order(models.Model):
 
 class Train(models.Model):
     name = models.CharField(max_length=50)
-    cargo_num = models.IntegerField(null=True)
-    places_in_cargo = models.IntegerField(null=True)
+    carriage_num = models.IntegerField(null=True)
+    places_in_carriage = models.IntegerField(null=True)
     train_type = models.ForeignKey(TrainType, on_delete=models.CASCADE)
-    num_seats = models.IntegerField(null=True)
     image = models.ImageField(upload_to=train_image_path, null=True)
 
+    @property
+    def num_seats(self):
+        return self.carriage_num * self.places_in_carriage
+
     def __str__(self):
-        return f"{self.name}. {self.cargo_num} {self.places_in_cargo}"
+        return f"{self.name}. {self.carriage_num} {self.places_in_carriage}"
+
+
+class Seats(models.Model):
+    train = models.ForeignKey(Train, on_delete=models.CASCADE)
+    seat = models.IntegerField()
+    carriage = models.IntegerField()
+    is_available = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.train}. {self.seat} - {self.carriage}"
 
 
 class Route(models.Model):
     source = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="source_routes")
     destination = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="destination_routes")
-    distance = models.IntegerField()
+
+    @property
+    def distance(self):
+        return sqrt(
+            (self.source.latitude - self.destination.latitude) ** 2
+            + (self.source.longitude - self.destination.longitude) ** 2
+        )
 
     @property
     def full_route(self):
@@ -82,10 +103,10 @@ class Journey(models.Model):
 
 
 class Ticket(models.Model):
-    cargo = models.IntegerField()
-    seat = models.IntegerField()
+    train = models.ForeignKey(Train, on_delete=models.CASCADE)
+    seat = models.ForeignKey(Seats, on_delete=models.CASCADE)
     journey = models.ForeignKey(Journey, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Cargo: {self.cargo}. Seat: {self.seat}. Journey: {self.journey}. Order: {self.order}"
+        return f"Cargo: {self.train}. Seat: {self.seat}. Journey: {self.journey}. Order: {self.order}"

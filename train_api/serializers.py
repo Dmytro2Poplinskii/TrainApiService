@@ -165,7 +165,13 @@ class MultipleTicketCreateSerializer(serializers.Serializer):
         tickets = []
 
         for ticket_data in tickets_data:
-            ticket = Ticket.objects.create(order=order, **ticket_data)
-            tickets.append(ticket)
+            seat = ticket_data['seat']
+            if seat.is_available:
+                ticket = Ticket.objects.create(order=order, **ticket_data)
+                seat.is_available = False
+                seat.save()
+                tickets.append(ticket)
+            else:
+                raise serializers.ValidationError(f"Seat {seat.id} is not available")
 
         return tickets

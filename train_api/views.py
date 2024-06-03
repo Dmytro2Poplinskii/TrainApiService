@@ -3,7 +3,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from train_api.models import Crew, Station, TrainType, Train, Route, Journey, Order, Ticket
+from train_api.models import Crew, Station, TrainType, Train, Route, Journey, Order, Ticket, Seats
 from train_api.serializers import (
     CrewSerializer,
     StationListSerializer,
@@ -76,6 +76,12 @@ class TrainViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def perform_create(self, serializer):
+        train = serializer.save()
+        for carriage in range(1, train.carriage_num + 1):
+            for seat in range(1, train.places_in_carriage + 1):
+                Seats.objects.create(train=train, seat=seat, carriage=carriage, is_available=True)
 
 
 class RouteViewSet(viewsets.ModelViewSet):

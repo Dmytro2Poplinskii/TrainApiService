@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from .views import (
     CrewViewSet,
@@ -10,70 +11,19 @@ from .views import (
     OrderViewSet,
     TicketViewSet,
 )
-from .constants import DEFAULT_LIST_ACTIONS, DEFAULT_DETAIL_ACTIONS
+
+router = DefaultRouter()
+router.register(r"crews", CrewViewSet)
+router.register(r"stations", StationViewSet)
+router.register(r"train-types", TrainTypeViewSet)
+router.register(r"trains", TrainViewSet)
+router.register(r"routes", RouteViewSet)
+router.register(r"journeys", JourneyViewSet)
+router.register(r"orders", OrderViewSet)
+router.register(r"tickets", TicketViewSet)
 
 urlpatterns = [
-    path("crews/", CrewViewSet.as_view(DEFAULT_LIST_ACTIONS), name="crew_list"),
-    path(
-        "crews/<int:pk>",
-        CrewViewSet.as_view(DEFAULT_DETAIL_ACTIONS),
-        name="crew_detail",
-    ),
-    path(
-        "stations/", StationViewSet.as_view(DEFAULT_LIST_ACTIONS), name="station_list"
-    ),
-    path(
-        "stations/<int:pk>",
-        StationViewSet.as_view(DEFAULT_DETAIL_ACTIONS),
-        name="station_detail",
-    ),
-    path(
-        "train-types/",
-        TrainTypeViewSet.as_view(DEFAULT_LIST_ACTIONS),
-        name="train_types_list",
-    ),
-    path(
-        "train-types/<int:pk>",
-        TrainTypeViewSet.as_view(DEFAULT_DETAIL_ACTIONS),
-        name="train_type_detail",
-    ),
-    path("trains/", TrainViewSet.as_view(DEFAULT_LIST_ACTIONS), name="train_list"),
-    path(
-        "trains/<int:pk>",
-        TrainViewSet.as_view(DEFAULT_DETAIL_ACTIONS),
-        name="train_detail",
-    ),
-    path(
-        "trains/<int:pk>/upload_image/",
-        TrainViewSet.as_view({"post": "upload_image"}),
-        name="upload_train_image",
-    ),
-    path("routes/", RouteViewSet.as_view(DEFAULT_LIST_ACTIONS), name="route_list"),
-    path(
-        "routes/<int:pk>",
-        RouteViewSet.as_view(DEFAULT_DETAIL_ACTIONS),
-        name="route_detail",
-    ),
-    path(
-        "journeys/", JourneyViewSet.as_view(DEFAULT_LIST_ACTIONS), name="journey_list"
-    ),
-    path(
-        "journeys/<int:pk>",
-        JourneyViewSet.as_view(DEFAULT_DETAIL_ACTIONS),
-        name="journey_detail",
-    ),
-    path("orders/", OrderViewSet.as_view(DEFAULT_LIST_ACTIONS), name="order_list"),
-    path(
-        "orders/<int:pk>",
-        OrderViewSet.as_view(DEFAULT_DETAIL_ACTIONS),
-        name="order_detail",
-    ),
-    path("tickets/", TicketViewSet.as_view(DEFAULT_LIST_ACTIONS), name="ticket_list"),
-    path(
-        "tickets/<int:pk>",
-        TicketViewSet.as_view(DEFAULT_DETAIL_ACTIONS),
-        name="ticket_detail",
-    ),
+    path("", include(router.urls)),
 ]
 
 app_name = "train_api"

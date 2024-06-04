@@ -145,5 +145,4 @@ SPECTACULAR_SETTINGS = {
         "defaultModelsExpandDepth": 2,
         "defaultModelExpandDepth": 2,
     }
-    # OTHER SETTINGS
 }

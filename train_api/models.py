@@ -3,7 +3,7 @@ from math import sqrt
 from django.db import models
 from django.contrib.auth.models import User
 
-from .utils import train_image_path
+from train_api.utils import train_image_path
 
 
 class Crew(models.Model):

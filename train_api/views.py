@@ -56,8 +56,8 @@ class StationViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return StationListSerializer
-        else:
-            return StationDetailSerializer
+
+        return StationDetailSerializer
 
 
 class TrainTypeViewSet(viewsets.ModelViewSet):
@@ -83,8 +83,8 @@ class TrainViewSet(viewsets.ModelViewSet):
             return TrainImageSerializer
         elif self.action in ("update", "partial_update"):
             return TrainCreateSerializer
-        else:
-            return TrainDetailSerializer
+
+        return TrainDetailSerializer
 
     @action(methods=["POST"], detail=True, url_path="upload-image")
     def upload_image(self, request, pk=None):
@@ -120,8 +120,8 @@ class RouteViewSet(viewsets.ModelViewSet):
             return RouteListSerializer
         elif self.action in ("create", "update", "partial_update"):
             return RouteCreateSerializer
-        else:
-            return RouteDetailSerializer
+
+        return RouteDetailSerializer
 
 
 class JourneyViewSet(viewsets.ModelViewSet):
@@ -166,8 +166,8 @@ class TicketViewSet(viewsets.ModelViewSet):
             return TicketListSerializer
         elif self.action in ("create", "update", "partial_update"):
             return MultipleTicketCreateSerializer
-        else:
-            return TicketDetailSerializer
+
+        return TicketDetailSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

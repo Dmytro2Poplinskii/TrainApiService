@@ -201,7 +201,7 @@ class TicketDetailSerializer(serializers.ModelSerializer):
 class TicketCreateSerializer(serializers.ModelSerializer):
     journey = serializers.PrimaryKeyRelatedField(queryset=Journey.objects.all())
     seat = serializers.PrimaryKeyRelatedField(
-        queryset=Seat.objects.all().filter(is_available=True)
+        queryset=Seat.objects.filter(is_available=True)
     )
     train = serializers.PrimaryKeyRelatedField(queryset=Train.objects.all())
 

@@ -9,7 +9,7 @@ from train_api.models import (
     Journey,
     Order,
     Ticket,
-    Seats,
+    Seat,
 )
 from users.serializers import UserSerializer
 
@@ -65,7 +65,7 @@ class TrainDetailSerializer(serializers.ModelSerializer):
         )
 
     def get_available_num_seats(self, obj):
-        return Seats.objects.filter(train=obj, is_available=True).count()
+        return Seat.objects.filter(train=obj, is_available=True).count()
 
 
 class TrainCreateSerializer(serializers.ModelSerializer):
@@ -201,7 +201,7 @@ class TicketDetailSerializer(serializers.ModelSerializer):
 class TicketCreateSerializer(serializers.ModelSerializer):
     journey = serializers.PrimaryKeyRelatedField(queryset=Journey.objects.all())
     seat = serializers.PrimaryKeyRelatedField(
-        queryset=Seats.objects.all().filter(is_available=True)
+        queryset=Seat.objects.all().filter(is_available=True)
     )
     train = serializers.PrimaryKeyRelatedField(queryset=Train.objects.all())
 

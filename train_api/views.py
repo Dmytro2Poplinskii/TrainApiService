@@ -12,7 +12,7 @@ from train_api.models import (
     Journey,
     Order,
     Ticket,
-    Seats,
+    Seat,
 )
 from train_api.serializers import (
     CrewSerializer,
@@ -33,7 +33,6 @@ from train_api.serializers import (
     TrainImageSerializer,
     RouteCreateSerializer,
     TrainCreateSerializer,
-    TicketCreateSerializer,
     MultipleTicketCreateSerializer,
 )
 
@@ -103,7 +102,7 @@ class TrainViewSet(viewsets.ModelViewSet):
         train = serializer.save()
         for carriage in range(1, train.carriage_num + 1):
             for seat in range(1, train.places_in_carriage + 1):
-                Seats.objects.create(
+                Seat.objects.create(
                     train=train, seat=seat, carriage=carriage, is_available=True
                 )
 

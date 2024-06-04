@@ -57,7 +57,7 @@ class Train(models.Model):
         return f"{self.name}. {self.carriage_num} {self.places_in_carriage}"
 
 
-class Seats(models.Model):
+class Seat(models.Model):
     train = models.ForeignKey(Train, on_delete=models.CASCADE)
     seat = models.IntegerField()
     carriage = models.IntegerField()
@@ -108,7 +108,7 @@ class Journey(models.Model):
 
 class Ticket(models.Model):
     train = models.ForeignKey(Train, on_delete=models.CASCADE)
-    seat = models.ForeignKey(Seats, on_delete=models.CASCADE)
+    seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
     journey = models.ForeignKey(Journey, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 

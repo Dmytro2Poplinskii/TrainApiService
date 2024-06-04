@@ -9,7 +9,7 @@ from .models import (
     Route,
     Journey,
     Train,
-    Seats,
+    Seat,
 )
 
 
@@ -21,4 +21,4 @@ admin.site.register(Order)
 admin.site.register(Route)
 admin.site.register(Journey)
 admin.site.register(Train)
-admin.site.register(Seats)
+admin.site.register(Seat)

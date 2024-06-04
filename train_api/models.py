@@ -36,7 +36,7 @@ class Station(models.Model):
 
 class Order(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
 
     def __str__(self):
         return f"Order for {self.user.username}. Date: {self.created_date}"
@@ -46,7 +46,7 @@ class Train(models.Model):
     name = models.CharField(max_length=50)
     carriage_num = models.IntegerField(null=True)
     places_in_carriage = models.IntegerField(null=True)
-    train_type = models.ForeignKey(TrainType, on_delete=models.CASCADE)
+    train_type = models.ForeignKey(TrainType, on_delete=models.CASCADE, related_name="trains")
     image = models.ImageField(upload_to=train_image_path, null=True)
 
     @property
@@ -58,7 +58,7 @@ class Train(models.Model):
 
 
 class Seat(models.Model):
-    train = models.ForeignKey(Train, on_delete=models.CASCADE)
+    train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="seats")
     seat = models.IntegerField()
     carriage = models.IntegerField()
     is_available = models.BooleanField(default=False)
@@ -69,7 +69,7 @@ class Seat(models.Model):
 
 class Route(models.Model):
     source = models.ForeignKey(
-        Station, on_delete=models.CASCADE, related_name="source_routes"
+        Station, on_delete=models.CASCADE, related_name="source_routes",
     )
     destination = models.ForeignKey(
         Station, on_delete=models.CASCADE, related_name="destination_routes"
@@ -91,11 +91,11 @@ class Route(models.Model):
 
 
 class Journey(models.Model):
-    route = models.ForeignKey(Route, on_delete=models.CASCADE)
-    train = models.ForeignKey(Train, on_delete=models.CASCADE)
+    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name="journeys")
+    train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="journeys")
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
-    crews = models.ManyToManyField(Crew)
+    crews = models.ManyToManyField(Crew, related_name="journeys")
 
     def __str__(self):
         return (
@@ -107,10 +107,10 @@ class Journey(models.Model):
 
 
 class Ticket(models.Model):
-    train = models.ForeignKey(Train, on_delete=models.CASCADE)
-    seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
-    journey = models.ForeignKey(Journey, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="tickets")
+    seat = models.ForeignKey(Seat, on_delete=models.CASCADE, related_name="tickets")
+    journey = models.ForeignKey(Journey, on_delete=models.CASCADE, related_name="tickets")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="tickets")
 
     def __str__(self):
         return f"Cargo: {self.train}. Seat: {self.seat}. Journey: {self.journey}. Order: {self.order}"
